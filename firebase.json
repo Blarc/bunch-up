@@ -1,0 +1,59 @@
+{
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "functions": {
+      "port": 5001
+    },
+    "ui": {
+      "enabled": true,
+      "port": 9090
+    },
+    "singleProjectMode": true,
+    "database": {
+      "port": 9000
+    }
+  },
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "bunchup-2025",
+          "appId": "1:337905744833:android:5c2e112156a898c0874d40",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "bunchup-2025",
+          "configurations": {
+            "android": "1:337905744833:android:5c2e112156a898c0874d40",
+            "ios": "1:337905744833:ios:575661627d8da55f874d40"
+          }
+        }
+      }
+    }
+  }
+}
