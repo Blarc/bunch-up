@@ -11,7 +11,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Only use emulator in debug mode
   if (kDebugMode) {
-    await FirebaseAuth.instance.useAuthEmulator("localhost", 9099);
+    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   }
   runApp(const Bunchup());
 }
