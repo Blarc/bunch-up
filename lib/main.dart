@@ -1,17 +1,34 @@
-import 'package:bunchup/src/app.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bunchup/routing/router.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
+import 'main.dart' as development;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  // WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Only use emulator in debug mode
-  if (kDebugMode) {
-    await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  // Launch development config by default
+  development.main();
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp.router(
+      // localizationsDelegates: [
+      //   GlobalWidgetsLocalizations.delegate,
+      //   GlobalMaterialLocalizations.delegate,
+      //   AppLocalizationDelegate(),
+      // ],
+      // scrollBehavior: AppCustomScrollBehavior(),
+      // theme: AppTheme.lightTheme,
+      // darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.system,
+      routerConfig: router(context.read()),
+    );
   }
-  runApp(const Bunchup());
 }

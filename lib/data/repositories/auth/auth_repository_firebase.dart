@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class BunchupAuth extends ChangeNotifier {
+class AuthRepositoryFirebase extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   User? get currentUser => _firebaseAuth.currentUser;
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
-  BunchupAuth() {
+  AuthRepositoryFirebase() {
     // Listen to auth state changes and notify listeners automatically
     _firebaseAuth.authStateChanges().listen((_) {
       notifyListeners();

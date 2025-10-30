@@ -1,5 +1,5 @@
-import 'package:bunchup/src/app.dart';
-import 'package:bunchup/src/auth.dart';
+import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +14,7 @@ class RegisterScreen extends StatelessWidget {
 
   Future<void> _handleGoogleSignIn(BuildContext context) async {
     try {
-      await context.read<BunchupAuth>().signInWithGoogle();
+      await context.read<AuthRepositoryFirebase>().signInWithGoogle();
       // Navigation handled automatically by GoRouter
     } catch (e) {
       if (context.mounted) {
