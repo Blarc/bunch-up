@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "337905744833-tq7jiiq2mu5t0olrmhejrrjafb996taj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.bunchup.bunchup",
+            "certificate_hash": "aced7fa99a62fb0962d8099c39e2d437ef8c97f7"
+          }
+        },
+        {
           "client_id": "337905744833-kearkiqfp0kgvntt72t2veb6m0be8ggc.apps.googleusercontent.com",
           "client_type": 3
         }

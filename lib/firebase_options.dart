@@ -55,6 +55,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '337905744833',
     projectId: 'bunchup-2025',
     databaseURL: 'https://bunchup-2025-default-rtdb.europe-west1.firebasedatabase.app',
+    androidClientId: '337905744833-tq7jiiq2mu5t0olrmhejrrjafb996taj.apps.googleusercontent.com',
+    iosClientId: '337905744833-f9pummagsm23isrejo42kr884va8q8o1.apps.googleusercontent.com',
     storageBucket: 'bunchup-2025.firebasestorage.app',
   );
 
@@ -65,6 +67,8 @@ class DefaultFirebaseOptions {
     projectId: 'bunchup-2025',
     databaseURL: 'https://bunchup-2025-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'bunchup-2025.firebasestorage.app',
+    androidClientId: '337905744833-tq7jiiq2mu5t0olrmhejrrjafb996taj.apps.googleusercontent.com',
+    iosClientId: '337905744833-f9pummagsm23isrejo42kr884va8q8o1.apps.googleusercontent.com',
     iosBundleId: 'com.github.bunchup.bunchup',
   );
 
