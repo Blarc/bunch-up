@@ -27,6 +27,8 @@ class BunchupAuth extends ChangeNotifier {
   }
 
   Future<UserCredential> signInWithGoogle() async {
+    await GoogleSignIn.instance.initialize();
+
     // Trigger the authentication flow
     final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
 
