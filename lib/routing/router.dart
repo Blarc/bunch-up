@@ -21,19 +21,20 @@ GoRouter router(AuthRepositoryFirebase authRepository) => GoRouter(
 
 // From https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart
 Future<String?> _redirect(BuildContext context, GoRouterState state) async {
-  // if the user is not logged in, they need to login
-  final loggedIn = context.read<AuthRepositoryFirebase>().currentUser != null;
-  final loggingIn = state.matchedLocation == Routes.login;
-  if (!loggedIn) {
-    return Routes.login;
+  final isLoggedIn = context.read<AuthRepositoryFirebase>().currentUser != null;
+  final isLoggingIn = state.matchedLocation == '/login';
+  final isRegistering = state.matchedLocation == '/register';
+
+  // Redirect to login if not authenticated
+  if (!isLoggedIn && !isLoggingIn && !isRegistering) {
+    return '/login';
   }
 
-  // if the user is logged in but still on the login page, send them to
-  // the home page
-  if (loggingIn) {
-    return Routes.home;
+  // Redirect to home if already logged in and trying to access auth pages
+  if (isLoggedIn && (isLoggingIn || isRegistering)) {
+    return '/';
   }
 
-  // no need to redirect at all
+  // No redirect needed
   return null;
 }

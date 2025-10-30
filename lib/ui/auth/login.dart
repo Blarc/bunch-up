@@ -1,4 +1,5 @@
 import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -192,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextButton(
                         onPressed: () {
                           // TODO: Navigate to register screen
-                          context.go('/register');
+                          context.go(Routes.register);
                         },
                         child: const Text('Sign Up'),
                       ),

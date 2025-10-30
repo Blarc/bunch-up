@@ -1,4 +1,5 @@
 import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/routing/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -264,8 +265,7 @@ class RegisterScreen extends StatelessWidget {
         GestureDetector(
           onTap: () {
             // Handle log in action
-            print("clicked on log in");
-            context.go('/login');
+            context.go(Routes.login);
           },
           child: Text(
             'Log in',
