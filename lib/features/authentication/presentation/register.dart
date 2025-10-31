@@ -1,21 +1,20 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/features/authentication/data/auth_repository_firebase.dart';
 import 'package:bunchup/routing/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({super.key});
 
   static const String _backgroundImageUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAg0qh702eksypb1lRGMcrMhIfGGEWuRY7yHE0ehUaJEbzYrLtd7dHvFVWd_Q0M5tL_J6yn3sXTVaEUUaDjtY_YUw5GMWZhSk0CSukMfSOGO-QBL0mFVpE62z2JgTo7Pk1WpAiUoycn5gimD0KRGiZBTdewfmMMOuzz_C5DkYyoXF8uN60asfjutHSo8G8pBttxrnJ3SvY2X_KSr6JWQRdUPhIK--binmmm245lktKx1hgTWxQKkoFysFNCuY9OnA3PH7wqIX86HzWb';
 
 
-  Future<void> _handleGoogleSignIn(BuildContext context) async {
+  Future<void> _handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
     try {
-      await context.read<AuthRepositoryFirebase>().signInWithGoogle();
+      await ref.read(authRepositoryProvider).signInWithGoogle();
       // Navigation handled automatically by GoRouter
     } catch (e) {
       if (context.mounted) {
@@ -28,7 +27,7 @@ class RegisterScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -46,7 +45,7 @@ class RegisterScreen extends StatelessWidget {
             children: [
               _buildHeader(),
               const Spacer(),
-              _buildLoginContent(context),
+              _buildLoginContent(context, ref),
             ],
           ),
         ),
@@ -95,7 +94,7 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginContent(BuildContext context) {
+  Widget _buildLoginContent(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -115,7 +114,7 @@ class RegisterScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             foregroundColor: Colors.black87,
             onPressed: () {
-              _handleGoogleSignIn(context);
+              _handleGoogleSignIn(context, ref);
             },
           ),
           const SizedBox(height: 12),

@@ -1,26 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthRepositoryFirebase extends ChangeNotifier {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+part 'auth_repository_firebase.g.dart';
 
-  User? get currentUser => _firebaseAuth.currentUser;
+class AuthRepository {
+  AuthRepository(this._auth);
 
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+  final FirebaseAuth _auth;
 
-  AuthRepositoryFirebase() {
-    // Listen to auth state changes and notify listeners automatically
-    _firebaseAuth.authStateChanges().listen((_) {
-      notifyListeners();
-    });
-  }
+  Stream<User?> authStateChanges() => _auth.authStateChanges();
+
+  User? get currentUser => _auth.currentUser;
 
   Future<UserCredential> signIn({
     required String email,
     required String password,
   }) async {
-    return await _firebaseAuth.signInWithEmailAndPassword(
+    return await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -30,13 +27,16 @@ class AuthRepositoryFirebase extends ChangeNotifier {
     await GoogleSignIn.instance.initialize();
 
     // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn.instance.authenticate();
+    final GoogleSignInAccount googleUser = await GoogleSignIn.instance
+        .authenticate();
 
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
     // Create a new credential
-    final credential = GoogleAuthProvider.credential(idToken: googleAuth.idToken);
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+    );
 
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
@@ -46,23 +46,22 @@ class AuthRepositoryFirebase extends ChangeNotifier {
     required String email,
     required String password,
   }) async {
-    return await _firebaseAuth.createUserWithEmailAndPassword(
+    return await _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
   }
 
   Future<void> signOut() async {
-    await _firebaseAuth.signOut();
+    await _auth.signOut();
   }
 
   Future<void> resetPassword({required String email}) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: email);
+    await _auth.sendPasswordResetEmail(email: email);
   }
 
   Future<void> updateUsername({required String username}) async {
     await currentUser!.updateDisplayName(username);
-    notifyListeners(); // Keep this - display name changes don't trigger authStateChanges
   }
 
   Future<void> deleteAccount({
@@ -75,7 +74,7 @@ class AuthRepositoryFirebase extends ChangeNotifier {
     );
     await currentUser!.reauthenticateWithCredential(credential);
     await currentUser!.delete();
-    await _firebaseAuth.signOut();
+    await _auth.signOut();
   }
 
   Future<void> resetPasswordFromCurrentPassword({
@@ -90,4 +89,19 @@ class AuthRepositoryFirebase extends ChangeNotifier {
     await currentUser!.reauthenticateWithCredential(credential);
     await currentUser!.updatePassword(newPassword);
   }
+}
+
+@Riverpod(keepAlive: true)
+FirebaseAuth firebaseAuth(Ref ref) {
+  return FirebaseAuth.instance;
+}
+
+@Riverpod(keepAlive: true)
+AuthRepository authRepository(Ref ref) {
+  return AuthRepository(ref.watch(firebaseAuthProvider));
+}
+
+@riverpod
+Stream<User?> authStateChanges(Ref ref) {
+  return ref.watch(authRepositoryProvider).authStateChanges();
 }

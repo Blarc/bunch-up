@@ -1,7 +1,7 @@
 import 'package:bunchup/routing/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'firebase_options.dart';
 import 'main_development.dart' as development;
@@ -13,11 +13,12 @@ void main() async {
   development.main();
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(routerProvider);
     return MaterialApp.router(
       // localizationsDelegates: [
       //   GlobalWidgetsLocalizations.delegate,
@@ -28,7 +29,7 @@ class MainApp extends StatelessWidget {
       // theme: AppTheme.lightTheme,
       // darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
-      routerConfig: router(context.read()),
+      routerConfig: router,
     );
   }
 }

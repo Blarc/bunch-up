@@ -1,13 +1,13 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/features/authentication/data/auth_repository_firebase.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class ProfileScreen extends ConsumerWidget {
+  const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final auth = context.watch<AuthRepositoryFirebase>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authRepositoryProvider);
     final user = auth.currentUser;
 
     return Scaffold(
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.logout),
             tooltip: 'Logout',
             onPressed: () async {
-              await context.read<AuthRepositoryFirebase>().signOut();
+              await ref.read(authRepositoryProvider).signOut();
             },
           ),
         ],
@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () async {
-                await context.read<AuthRepositoryFirebase>().signOut();
+                await ref.read(authRepositoryProvider).signOut();
               },
               icon: const Icon(Icons.logout),
               label: const Text('Sign Out'),

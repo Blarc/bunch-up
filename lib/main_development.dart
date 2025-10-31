@@ -1,8 +1,7 @@
-import 'package:bunchup/config/dependencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
-import 'package:provider/provider.dart';
 
 import 'main.dart';
 
@@ -11,5 +10,5 @@ import 'main.dart';
 void main() async {
   Logger.root.level = Level.ALL;
   await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  runApp(MultiProvider(providers: providersLocal, child: const MainApp()));
+  runApp(ProviderScope(child: MainApp()));
 }
