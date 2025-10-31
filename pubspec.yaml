@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  authentication_repository:
+    path: packages/authentication_repository
   flutter:
     sdk: flutter
   google_fonts: ^6.3.2
@@ -36,10 +38,13 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   firebase_auth: ^6.1.1
-  provider: ^6.1.5+1
   go_router: ^16.3.0
   firebase_core: ^4.2.0
-  google_sign_in: ^7.2.0
+  bloc: ^9.1.0
+  flutter_bloc: ^9.1.1
+  flow_builder: ^0.1.0
+  equatable: ^2.0.7
+  formz: ^0.8.0
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +56,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
+  very_good_analysis: ^10.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

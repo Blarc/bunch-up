@@ -1,14 +1,15 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/app/app.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthRepositoryFirebase>();
-    final user = auth.currentUser;
+    // final auth = context.watch<AuthRepositoryFirebase>();
+    // final user = auth.currentUser;
+    final user = context.select((AppBloc bloc) => bloc.state.user);
 
     return Scaffold(
       appBar: AppBar(
@@ -18,7 +19,8 @@ class HomeScreen extends StatelessWidget {
             icon: const Icon(Icons.logout),
             tooltip: 'Logout',
             onPressed: () async {
-              await context.read<AuthRepositoryFirebase>().signOut();
+              // await context.read<AuthRepositoryFirebase>().signOut();
+              context.read<AppBloc>().add(const AppLogoutPressed());
             },
           ),
         ],
@@ -28,13 +30,13 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Welcome, ${user?.displayName ?? user?.email ?? 'User'}!',
+              'Welcome, ${user.name ?? user.email ?? 'User'}!',
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () async {
-                await context.read<AuthRepositoryFirebase>().signOut();
+                context.read<AppBloc>().add(const AppLogoutPressed());
               },
               icon: const Icon(Icons.logout),
               label: const Text('Sign Out'),

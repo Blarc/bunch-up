@@ -1,31 +1,16 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bunchup/routing/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bunchup/sign_up/cubit/sign_up_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   static const String _backgroundImageUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAg0qh702eksypb1lRGMcrMhIfGGEWuRY7yHE0ehUaJEbzYrLtd7dHvFVWd_Q0M5tL_J6yn3sXTVaEUUaDjtY_YUw5GMWZhSk0CSukMfSOGO-QBL0mFVpE62z2JgTo7Pk1WpAiUoycn5gimD0KRGiZBTdewfmMMOuzz_C5DkYyoXF8uN60asfjutHSo8G8pBttxrnJ3SvY2X_KSr6JWQRdUPhIK--binmmm245lktKx1hgTWxQKkoFysFNCuY9OnA3PH7wqIX86HzWb';
-
-
-  Future<void> _handleGoogleSignIn(BuildContext context) async {
-    try {
-      await context.read<AuthRepositoryFirebase>().signInWithGoogle();
-      // Navigation handled automatically by GoRouter
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Google sign-in failed: ${e.toString()}')),
-        );
-      }
-      rethrow;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,21 +18,24 @@ class RegisterScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(_backgroundImageUrl),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                Colors.black.withAlpha(130),
-                BlendMode.darken,
-              )
+            image: const NetworkImage(_backgroundImageUrl),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withAlpha(130),
+              BlendMode.darken,
+            ),
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(),
-              const Spacer(),
-              _buildLoginContent(context),
-            ],
+        child: BlocProvider(
+          create: (_) => SignUpCubit(context.read<AuthenticationRepository>()),
+          child: SafeArea(
+            child: Column(
+              children: [
+                _buildHeader(),
+                const Spacer(),
+                _LoginContentWidget()
+              ],
+            ),
           ),
         ),
       ),
@@ -95,7 +83,34 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLoginContent(BuildContext context) {
+  List<Shadow> _textShadows({double blurRadius = 4}) {
+    return [
+      Shadow(
+        offset: Offset(0, blurRadius == 8 ? 2 : 1),
+        blurRadius: blurRadius,
+        color: Colors.black54,
+      ),
+    ];
+  }
+}
+
+class _LoginContentWidget extends StatelessWidget {
+  Future<void> _handleGoogleSignIn(BuildContext context) async {
+    try {
+      await context.read<SignUpCubit>().logInWithGoogle();
+      // Navigation handled automatically by GoRouter
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Google sign-in failed: $e')),
+        );
+      }
+      rethrow;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Column(
@@ -114,8 +129,8 @@ class RegisterScreen extends StatelessWidget {
             iconSize: 32,
             backgroundColor: Colors.white,
             foregroundColor: Colors.black87,
-            onPressed: () {
-              _handleGoogleSignIn(context);
+            onPressed: () async {
+              await _handleGoogleSignIn(context);
             },
           ),
           const SizedBox(height: 12),
