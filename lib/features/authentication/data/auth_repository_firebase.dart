@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'auth_repository_firebase.g.dart';
 
@@ -17,7 +17,7 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    return await _auth.signInWithEmailAndPassword(
+    return _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -27,11 +27,11 @@ class AuthRepository {
     await GoogleSignIn.instance.initialize();
 
     // Trigger the authentication flow
-    final GoogleSignInAccount googleUser = await GoogleSignIn.instance
+    final googleUser = await GoogleSignIn.instance
         .authenticate();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+    final googleAuth = googleUser.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -39,14 +39,14 @@ class AuthRepository {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<UserCredential> createAccount({
     required String email,
     required String password,
   }) async {
-    return await _auth.createUserWithEmailAndPassword(
+    return _auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -68,7 +68,7 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    AuthCredential credential = EmailAuthProvider.credential(
+    final credential = EmailAuthProvider.credential(
       email: email,
       password: password,
     );
@@ -82,7 +82,7 @@ class AuthRepository {
     required String newPassword,
     required String email,
   }) async {
-    AuthCredential credential = EmailAuthProvider.credential(
+    final credential = EmailAuthProvider.credential(
       email: email,
       password: currentPassword,
     );

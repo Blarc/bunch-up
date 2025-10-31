@@ -1,5 +1,6 @@
 import 'package:bunchup/features/authentication/data/auth_repository_firebase.dart';
 import 'package:bunchup/routing/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           email: _emailController.text,
           password: _passwordController.text,
         );
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Login failed: $e')),
@@ -58,7 +59,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24),
             child: Form(
               key: _formKey,
               child: Column(
@@ -152,7 +153,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        // TODO: Navigate to forgot password
+                        // TODO(blarc): Navigate to forgot password
                       },
                       child: const Text('Forgot Password?'),
                     ),
@@ -190,7 +191,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       const Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
-                          // TODO: Navigate to register screen
+                          // TODO(blarc): Navigate to register screen
                           context.go(Routes.register);
                         },
                         child: const Text('Sign Up'),

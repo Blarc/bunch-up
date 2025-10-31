@@ -19,7 +19,7 @@ class RegisterScreen extends ConsumerWidget {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Google sign-in failed: ${e.toString()}')),
+          SnackBar(content: Text('Google sign-in failed: $e')),
         );
       }
       rethrow;
@@ -32,7 +32,7 @@ class RegisterScreen extends ConsumerWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(_backgroundImageUrl),
+              image: const NetworkImage(_backgroundImageUrl),
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(
                 Colors.black.withAlpha(130),
@@ -55,7 +55,7 @@ class RegisterScreen extends ConsumerWidget {
 
   Widget _buildHeader() {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(24),
       child: Row(
         children: [
           _buildLogo(),
@@ -96,7 +96,7 @@ class RegisterScreen extends ConsumerWidget {
 
   Widget _buildLoginContent(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(24),
       child: Column(
         children: [
           _buildHeadline(),
@@ -113,8 +113,8 @@ class RegisterScreen extends ConsumerWidget {
             iconSize: 32,
             backgroundColor: Colors.white,
             foregroundColor: Colors.black87,
-            onPressed: () {
-              _handleGoogleSignIn(context, ref);
+            onPressed: () async {
+              await _handleGoogleSignIn(context, ref);
             },
           ),
           const SizedBox(height: 12),

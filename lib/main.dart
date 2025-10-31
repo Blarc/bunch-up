@@ -1,10 +1,9 @@
+import 'package:bunchup/firebase_options.dart';
+import 'package:bunchup/main_development.dart' as development;
 import 'package:bunchup/routing/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'firebase_options.dart';
-import 'main_development.dart' as development;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +27,6 @@ class MainApp extends ConsumerWidget {
       // scrollBehavior: AppCustomScrollBehavior(),
       // theme: AppTheme.lightTheme,
       // darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
       routerConfig: router,
     );
   }
