@@ -1,8 +1,8 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/data/repositories/auth/auth_repository.dart';
 import 'package:bunchup/routing/routes.dart';
+import 'package:bunchup/utils/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       try {
         // Access BunchupAuth from provider
-        await context.read<AuthRepositoryFirebase>().signIn(
+        await Provider.of<AuthRepository>(context).signIn(
           email: _emailController.text,
           password: _passwordController.text,
         );

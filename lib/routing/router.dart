@@ -1,17 +1,17 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/data/repositories/auth/auth_repository.dart';
 import 'package:bunchup/routing/routes.dart';
 import 'package:bunchup/ui/auth/login.dart';
 import 'package:bunchup/ui/auth/register.dart';
 import 'package:bunchup/ui/home/home.dart';
+import 'package:bunchup/utils/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
-GoRouter router(AuthRepositoryFirebase authRepository) => GoRouter(
+GoRouter router(BuildContext context) => GoRouter(
   initialLocation: Routes.home,
   debugLogDiagnostics: true,
   redirect: _redirect,
-  refreshListenable: authRepository,
+  refreshListenable: Provider.of<AuthRepository>(context),
   routes: [
     GoRoute(path: Routes.home, builder: (context, state) => HomeScreen()),
     GoRoute(path: Routes.login, builder: (context, state) => LoginScreen()),
@@ -21,7 +21,7 @@ GoRouter router(AuthRepositoryFirebase authRepository) => GoRouter(
 
 // From https://github.com/flutter/packages/blob/main/packages/go_router/example/lib/redirection.dart
 Future<String?> _redirect(BuildContext context, GoRouterState state) async {
-  final isLoggedIn = context.read<AuthRepositoryFirebase>().currentUser != null;
+  final isLoggedIn = Provider.of<AuthRepository>(context).currentUser != null;
   final isLoggingIn = state.matchedLocation == '/login';
   final isRegistering = state.matchedLocation == '/register';
 

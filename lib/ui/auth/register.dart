@@ -1,10 +1,9 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
+import 'package:bunchup/data/repositories/auth/auth_repository.dart';
 import 'package:bunchup/routing/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bunchup/utils/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -15,12 +14,12 @@ class RegisterScreen extends StatelessWidget {
 
   Future<void> _handleGoogleSignIn(BuildContext context) async {
     try {
-      await context.read<AuthRepositoryFirebase>().signInWithGoogle();
+      await Provider.of<AuthRepository>(context).signInWithGoogle();
       // Navigation handled automatically by GoRouter
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Google sign-in failed: ${e.toString()}')),
+          SnackBar(content: Text('Google sign-in failed: $e')),
         );
       }
       rethrow;
@@ -33,7 +32,7 @@ class RegisterScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(_backgroundImageUrl),
+              image: const NetworkImage(_backgroundImageUrl),
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(
                 Colors.black.withAlpha(130),
@@ -114,8 +113,8 @@ class RegisterScreen extends StatelessWidget {
             iconSize: 32,
             backgroundColor: Colors.white,
             foregroundColor: Colors.black87,
-            onPressed: () {
-              _handleGoogleSignIn(context);
+            onPressed: () async {
+              await _handleGoogleSignIn(context);
             },
           ),
           const SizedBox(height: 12),
