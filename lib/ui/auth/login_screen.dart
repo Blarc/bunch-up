@@ -1,5 +1,6 @@
 import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
 import 'package:bunchup/routing/routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
           password: _passwordController.text,
         );
         // No need to navigate - GoRouter will handle it automatically
-      } catch (e) {
+      } on FirebaseAuthException catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Login failed: $e')),
@@ -154,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () {
-                        // TODO: Navigate to forgot password
+                        // TODO(blarc): Navigate to forgot password
                       },
                       child: const Text('Forgot Password?'),
                     ),
@@ -192,7 +193,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
-                          // TODO: Navigate to register screen
                           context.go(Routes.register);
                         },
                         child: const Text('Sign Up'),

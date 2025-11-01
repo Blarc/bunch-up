@@ -1,8 +1,8 @@
 import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
 import 'package:bunchup/routing/routes.dart';
-import 'package:bunchup/ui/auth/login.dart';
-import 'package:bunchup/ui/auth/register.dart';
-import 'package:bunchup/ui/home/home.dart';
+import 'package:bunchup/ui/auth/login_screen.dart';
+import 'package:bunchup/ui/auth/sign_up_screen.dart';
+import 'package:bunchup/ui/profile/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -13,9 +13,15 @@ GoRouter router(AuthRepositoryFirebase authRepository) => GoRouter(
   redirect: _redirect,
   refreshListenable: authRepository,
   routes: [
-    GoRoute(path: Routes.home, builder: (context, state) => HomeScreen()),
-    GoRoute(path: Routes.login, builder: (context, state) => LoginScreen()),
-    GoRoute(path: Routes.register, builder: (context, state) => RegisterScreen()),
+    GoRoute(path: Routes.home, builder: (context, state) => const ProfileScreen()),
+    GoRoute(
+      path: Routes.login,
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: Routes.register,
+      builder: (context, state) => const SignUpScreen(),
+    ),
   ],
 );
 

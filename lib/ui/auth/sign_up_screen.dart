@@ -1,31 +1,16 @@
-import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
 import 'package:bunchup/routing/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bunchup/ui/auth/social_button.dart';
+import 'package:bunchup/ui/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
-class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  const SignUpScreen({super.key});
 
   static const String _backgroundImageUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAg0qh702eksypb1lRGMcrMhIfGGEWuRY7yHE0ehUaJEbzYrLtd7dHvFVWd_Q0M5tL_J6yn3sXTVaEUUaDjtY_YUw5GMWZhSk0CSukMfSOGO-QBL0mFVpE62z2JgTo7Pk1WpAiUoycn5gimD0KRGiZBTdewfmMMOuzz_C5DkYyoXF8uN60asfjutHSo8G8pBttxrnJ3SvY2X_KSr6JWQRdUPhIK--binmmm245lktKx1hgTWxQKkoFysFNCuY9OnA3PH7wqIX86HzWb';
 
-
-  Future<void> _handleGoogleSignIn(BuildContext context) async {
-    try {
-      await context.read<AuthRepositoryFirebase>().signInWithGoogle();
-      // Navigation handled automatically by GoRouter
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Google sign-in failed: ${e.toString()}')),
-        );
-      }
-      rethrow;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +18,7 @@ class RegisterScreen extends StatelessWidget {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: NetworkImage(_backgroundImageUrl),
+              image: const NetworkImage(_backgroundImageUrl),
               fit: BoxFit.cover,
               colorFilter: ColorFilter.mode(
                 Colors.black.withAlpha(130),
@@ -90,7 +75,7 @@ class RegisterScreen extends StatelessWidget {
         fontSize: 24,
         fontWeight: FontWeight.bold,
         color: Colors.white,
-        shadows: _textShadows(),
+        shadows: textShadows(),
       ),
     );
   }
@@ -108,27 +93,9 @@ class RegisterScreen extends StatelessWidget {
           const SizedBox(height: 16),
           _buildDivider(),
           const SizedBox(height: 16),
-          _buildSocialButton(
-            label: 'Continue with Google',
-            icon: Icons.g_mobiledata,
-            iconSize: 32,
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.black87,
-            onPressed: () {
-              _handleGoogleSignIn(context);
-            },
-          ),
+          const GoogleSocialButton(),
           const SizedBox(height: 12),
-          _buildSocialButton(
-            label: 'Continue with Apple',
-            icon: Icons.apple,
-            iconSize: 28,
-            backgroundColor: Colors.black,
-            foregroundColor: Colors.white,
-            onPressed: () {
-              // Handle Apple sign-in
-            },
-          ),
+          const AppleSocialButton(),
           const SizedBox(height: 20),
           _buildLoginLink(context),
         ],
@@ -145,7 +112,7 @@ class RegisterScreen extends StatelessWidget {
         fontWeight: FontWeight.bold,
         color: Colors.white,
         height: 1.2,
-        shadows: _textShadows(blurRadius: 8),
+        shadows: textShadows(blurRadius: 8),
       ),
     );
   }
@@ -158,7 +125,7 @@ class RegisterScreen extends StatelessWidget {
         fontSize: 16,
         color: Colors.white,
         height: 1.4,
-        shadows: _textShadows(),
+        shadows: textShadows(),
       ),
     );
   }
@@ -205,7 +172,7 @@ class RegisterScreen extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Colors.white,
-              shadows: _textShadows(),
+              shadows: textShadows(),
             ),
           ),
         ),
@@ -219,37 +186,6 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSocialButton({
-    required String label,
-    required IconData icon,
-    required double iconSize,
-    required Color backgroundColor,
-    required Color foregroundColor,
-    required VoidCallback onPressed,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      height: 36,
-      child: ElevatedButton.icon(
-        onPressed: onPressed,
-        icon: Icon(icon, size: iconSize),
-        label: Text(label),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor,
-          foregroundColor: foregroundColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          elevation: 2,
-          textStyle: GoogleFonts.plusJakartaSans(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildLoginLink(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -259,7 +195,7 @@ class RegisterScreen extends StatelessWidget {
           style: GoogleFonts.plusJakartaSans(
             fontSize: 14,
             color: Colors.white,
-            shadows: _textShadows(),
+            shadows: textShadows(),
           ),
         ),
         GestureDetector(
@@ -275,7 +211,7 @@ class RegisterScreen extends StatelessWidget {
               color: Colors.white,
               decoration: TextDecoration.underline,
               decorationColor: Colors.white,
-              shadows: _textShadows(),
+              shadows: textShadows(),
             ),
           ),
         ),
@@ -283,13 +219,5 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 
-  List<Shadow> _textShadows({double blurRadius = 4}) {
-    return [
-      Shadow(
-        offset: Offset(0, blurRadius == 8 ? 2 : 1),
-        blurRadius: blurRadius,
-        color: Colors.black54,
-      ),
-    ];
-  }
+
 }
