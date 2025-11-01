@@ -89,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
           const SizedBox(height: 16),
           _buildSubtitle(),
           const SizedBox(height: 48),
-          _buildJoinButton(),
+          _buildJoinButton(context),
           const SizedBox(height: 16),
           _buildDivider(),
           const SizedBox(height: 16),
@@ -130,13 +130,14 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildJoinButton() {
+  Widget _buildJoinButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       height: 56,
       child: ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           // Handle Join the Bunch action
+          await context.push(Routes.signUpForm);
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.cyan,
