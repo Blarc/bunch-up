@@ -1,11 +1,9 @@
-import 'package:bunchup/ui/core/themes/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SimpleStepIndicator extends StatelessWidget {
   const SimpleStepIndicator({
     required this.currentStep,
-    this.steps = 4,
+    required this.steps,
     super.key,
   });
 
@@ -28,7 +26,9 @@ class SimpleStepIndicator extends StatelessWidget {
                 for (final step in List.generate(steps, (index) => index))
                   Icon(
                     Icons.circle,
-                    color: step == currentStep ? AppColors.blue1 : Colors.grey,
+                    color: step == currentStep
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey,
                     size: step == currentStep ? 16.0 : 16.0,
                   ),
               ],

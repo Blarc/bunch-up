@@ -2,6 +2,7 @@ import 'package:bunchup/data/repositories/auth/auth_repository_firebase.dart';
 import 'package:bunchup/ui/core/localization/applocalization.dart';
 import 'package:bunchup/ui/core/themes/colors.dart';
 import 'package:bunchup/ui/core/themes/dimensions.dart';
+import 'package:bunchup/ui/core/ui/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,18 +67,7 @@ class ProfileScreen extends StatelessWidget {
                     .headlineSmall,
               ),
               const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.blue1
-                  ),
-                  child: Text(AppLocalization
-                      .of(context)
-                      .profileEditButton),
-                ),
-              ),
+              PrimaryButton(text: 'Edit Profile', height: 40, onPressed: () {}),
               const SizedBox(height: 24),
               const Divider(),
               const SizedBox(height: 24),

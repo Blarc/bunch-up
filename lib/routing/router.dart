@@ -1,7 +1,7 @@
 import 'package:bunchup/routing/routes.dart';
-import 'package:bunchup/ui/auth/login_screen.dart';
-import 'package:bunchup/ui/auth/sign_up_form_screen.dart';
-import 'package:bunchup/ui/auth/sign_up_screen.dart';
+import 'package:bunchup/ui/auth/login/login_screen.dart';
+import 'package:bunchup/ui/auth/sign_up_form/sign_up_form_screen.dart';
+import 'package:bunchup/ui/auth/sing_up/sign_up_screen.dart';
 import 'package:bunchup/ui/profile/profile.dart';
 import 'package:go_router/go_router.dart';
 
