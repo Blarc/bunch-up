@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract final class AppColors {
-  static const blue1 = Color(0xFF25AFF4);
+  static const blue1 = Color(0xFF017BFE);
   static const black1 = Color(0xFF101010);
   static const white1 = Color(0xFFFFF7FA);
   static const grey1 = Color(0xFFF2F2F2);
@@ -15,25 +15,25 @@ abstract final class AppColors {
 
   static const lightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: AppColors.blue1,
-    onPrimary: AppColors.white1,
-    secondary: AppColors.black1,
-    onSecondary: AppColors.white1,
-    surface: Colors.white,
-    onSurface: AppColors.black1,
-    error: Colors.white,
-    onError: Colors.red,
+    primary: AppColors.blue1,        // Blue buttons
+    onPrimary: Colors.white,         // White text on blue buttons
+    surface: Colors.white,           // White background
+    onSurface: Colors.black,         // Black text on white background
+    secondary: AppColors.grey2,      // Secondary elements
+    onSecondary: Colors.white,       // Text on secondary elements
+    error: AppColors.red1,           // Error color
+    onError: Colors.white,           // Text on error elements
   );
 
   static const darkColorScheme = ColorScheme(
     brightness: Brightness.dark,
-    primary: AppColors.blue1,
-    onPrimary: AppColors.black1,
-    secondary: AppColors.white1,
-    onSecondary: AppColors.black1,
-    surface: AppColors.black1,
-    onSurface: Colors.white,
-    error: Colors.black,
-    onError: AppColors.red1,
+    primary: AppColors.blue1,        // Keep blue buttons
+    onPrimary: Colors.white,         // White text on blue buttons
+    surface: AppColors.black1,       // Dark background
+    onSurface: Colors.white,         // White text on dark background
+    secondary: AppColors.grey3,      // Lighter grey for dark mode
+    onSecondary: Colors.black,       // Text on secondary elements
+    error: AppColors.red1,           // Error color
+    onError: Colors.white,           // Text on error elements
   );
 }

@@ -1,5 +1,6 @@
 import 'package:bunchup/routing/routes.dart';
 import 'package:bunchup/ui/auth/social_button.dart';
+import 'package:bunchup/ui/core/ui/primary_button.dart';
 import 'package:bunchup/ui/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,25 +12,24 @@ class SignUpScreen extends StatelessWidget {
   static const String _backgroundImageUrl =
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAg0qh702eksypb1lRGMcrMhIfGGEWuRY7yHE0ehUaJEbzYrLtd7dHvFVWd_Q0M5tL_J6yn3sXTVaEUUaDjtY_YUw5GMWZhSk0CSukMfSOGO-QBL0mFVpE62z2JgTo7Pk1WpAiUoycn5gimD0KRGiZBTdewfmMMOuzz_C5DkYyoXF8uN60asfjutHSo8G8pBttxrnJ3SvY2X_KSr6JWQRdUPhIK--binmmm245lktKx1hgTWxQKkoFysFNCuY9OnA3PH7wqIX86HzWb';
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: const NetworkImage(_backgroundImageUrl),
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                Colors.black.withAlpha(130),
-                BlendMode.darken,
-              )
+            image: const NetworkImage(_backgroundImageUrl),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withAlpha(130),
+              BlendMode.darken,
+            ),
           ),
         ),
         child: SafeArea(
           child: Column(
             children: [
-              _buildHeader(),
+              _buildHeader(context),
               const Spacer(),
               _buildLoginContent(context),
             ],
@@ -39,12 +39,12 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24.0),
       child: Row(
         children: [
-          _buildLogo(),
+          _buildLogo(context),
           const SizedBox(width: 12),
           _buildBrandName(),
         ],
@@ -52,12 +52,12 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLogo() {
+  Widget _buildLogo(BuildContext context) {
     return Container(
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: Colors.cyan,
+        color: Theme.of(context).colorScheme.primary,
         borderRadius: BorderRadius.circular(8),
       ),
       child: const Icon(
@@ -89,7 +89,10 @@ class SignUpScreen extends StatelessWidget {
           const SizedBox(height: 16),
           _buildSubtitle(),
           const SizedBox(height: 48),
-          _buildJoinButton(context),
+          PrimaryButton(
+            text: 'Join the Bunch',
+            onPressed: () async => context.push(Routes.signUpForm),
+          ),
           const SizedBox(height: 16),
           _buildDivider(),
           const SizedBox(height: 16),
@@ -126,32 +129,6 @@ class SignUpScreen extends StatelessWidget {
         color: Colors.white,
         height: 1.4,
         shadows: textShadows(),
-      ),
-    );
-  }
-
-  Widget _buildJoinButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: ElevatedButton(
-        onPressed: () async {
-          // Handle Join the Bunch action
-          await context.push(Routes.signUpForm);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.cyan,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-          elevation: 4,
-          textStyle: GoogleFonts.plusJakartaSans(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        child: const Text('Join the Bunch'),
       ),
     );
   }
@@ -219,6 +196,4 @@ class SignUpScreen extends StatelessWidget {
       ],
     );
   }
-
-
 }
